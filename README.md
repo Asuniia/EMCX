@@ -14,8 +14,6 @@ EMCX est un ML (Module Loader) perméttant de créer,utiliser et mettre en ligne
 - Utiliser des serveurs en ligne pour télécharger et utiliser des modules communautaire.
 - Créer ses propres module plus facilement que ClientX
 
-Markdown is a lightweight markup language based on the formatting conventions
-
 ## Installation
 
 Aucune dépendances n'est requise à EMCX.
