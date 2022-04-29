@@ -55,6 +55,7 @@ Aller dans "/src/ClientX/App.php"
     
         public function getContainer(): ContainerInterface
     {
+        $builder = new ContainerBuilder(); // LIGNE A SUPPRIMER DANS "getContainer"
         $builder = $this->builder; // LIGNE A RAJOUTER DANS "getContainer"
     }
 ```
@@ -64,7 +65,7 @@ Aller dans "/src/ClientX/App.php"
 
 | Module | Repo |
 | ------ | ------ |
-| ExempleModule | [EMCXLocal][PlDb] |
+| ExempleModule | EMCXLocal |
 
 ## Liste des répertoires certifiés
 | Nom | Nbre modules |
