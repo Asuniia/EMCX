@@ -1,0 +1,178 @@
+{% extends '@admin/layout.twig' %}
+
+{% block title trans("emcx.admin.title") %}
+{% block pagetitle trans("emcx.admin.title") %}
+{% block pagesubtitle  trans("emcx.admin.subtitle") %}
+
+{% block buttoninfo %}
+    <div class="col-sm-6">
+        <a class="btn btn-default btn-md float-right"
+           href="{{ path('admin.emcx.servers') }}">{{ trans('emcx.admin.change_repo') }} <i class="fa-regular fa-compass"></i></a>
+    </div>
+{% endblock %}
+
+
+{% block body %}
+
+
+    <div class="col-12">
+        <div class="callout callout-danger alert-dismissible">
+            EMCX : Maintenance de l'API à 16h !
+        </div>
+    </div>
+
+    <div class="row">
+
+        <div class="col-12 col-sm-12 col-md-4 col-xl-3 d-flex align-items-stretch flex-column">
+            <div class="card d-flex flex-fill">
+                <div class="card-header text-muted border-bottom-0 d-flex">
+                    <div class="p-2 flex-grow-1 ">
+                        NOM
+                            <span class="badge badge-success">ACTIF</span>
+                            <span class="badge badge-danger">NON ACTIF</span>
+                            <span class="badge badge-info">METTRE A JOUR</span>
+                    </div>
+
+                        <div class="p-2">
+                            <a href="#config"
+                               class="btn btn-sm bg-purple" target="_BLANK">
+                                <i class="fas fa-cog"></i>
+                            </a>
+                        </div>
+                </div>
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-7 card-about-container">
+                            <h2 class="lead">
+                                <b>
+                                    MODULE OFFICIEL
+
+                                    <b class="text-warning">
+                                        <i class="fas fa-star"></i>
+                                    </b>
+                                </b>
+                            </h2>
+                                <form method="POST"
+                                      action="#download">
+
+                                        <button type="button" class="btn btn-info btn-sm"
+                                                data-update-route="#download">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                                TELECHARGER
+                                                    /
+                                                RE INSTALLER
+                                            <span class="spinner-border spinner-border-sm btn-spinner d-none"
+                                                  role="status"></span>
+                                        </button>
+
+                                        <button type="button" class="btn btn-info btn-sm"
+                                                data-update-route="#download">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                                TELECHARGER
+                                            <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
+                                        </button>
+                                </form>
+                            <p class="text-muted text-sm">
+                                <b>
+                                    A PROPOS
+                                    :
+                                </b>
+                                DESCRIPTION
+                            </p>
+                            <ul class="ml-4 mb-0 fa-ul text-muted">
+                                <li class="small">
+                                                    <span class="fa-li">
+                                                        <i class="fas fa-lg fa-life-ring"></i>
+                                                    </span>
+                                    SUPPORT
+                                    :
+
+                                    LISTE SUPPORT
+                                </li>
+                                <li class="small">
+                                                    <span class="fa-li">
+                                                        <i class="fas fa-lg fa-pen"></i>
+                                                    </span>
+                                    MIS A JOUR LE
+                                    :
+
+                                    11/08/2001
+                                </li>
+
+                                    <li class="small">
+                                                    <span class="fa-li">
+                                                        <i class="fas fa-lg fa-code-branch"></i>
+                                                    </span>
+                                        VERSION
+                                        :
+
+                                        V1.0
+                                    </li>
+                                <li class="small">
+                                                    <span class="fa-li">
+                                                        <i class="fas fa-lg fa-tag"></i>
+                                                    </span>
+
+                                    PRIX
+                                    :
+                                        <span class="badge badge-success">GRATUIT</span>
+                                        <span class="badge badge-info">15€</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="col-5 text-center card-logo-container">
+                            <img src="#Logo_url" alt="#Module_name" class="card-logo" style="max-width: 100%; max-height: 100%"
+                                 class="img-fluid">
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="text-right">
+                        <form method="POST"
+                              action="#switch">
+
+                                <a href="#SUPPORT_URL" class="btn btn-sm bg-success"
+                                   target="_BLANK">
+                                    <i class="fas fa-home"></i>
+                                </a>
+
+
+                            <a href="#SUPPORT_DISCORD" class="btn btn-sm bg-teal" target="_BLANK">
+                                <i class="fas fa-life-ring"></i>
+                            </a>
+
+                            <a href="#" class="btn btn-sm btn-primary btn-tools"
+                               data-name="#module_name"
+                               data-url="#module_details">
+                                <i class="fas fa-list-ul loader"></i>
+                                CHANGELOG
+                            </a>
+
+
+                                    <button type="button" class="btn btn-danger btn-sm"
+                                            data-update-route="#switch">
+                                        <i class="fas fa-sync"></i>
+                                        DESACTIVER
+                                        <span class="spinner-border spinner-border-sm btn-spinner d-none"
+                                              role="status"></span>
+                                    </button>
+
+                                    <button type="button" class="btn btn-success btn-sm"
+                                            data-update-route="#switch">
+                                        <i class="fas fa-sync"></i>
+                                        ACTIVER
+                                        <span class="spinner-border spinner-border-sm btn-spinner d-none"
+                                              role="status"></span>
+                                    </button>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

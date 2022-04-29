@@ -1,0 +1,13 @@
+{
+  "ExempleModule": {
+    "name": "Exemple",
+    "version": 1.0,
+    "type": "module",
+    "repo": "ClientXApp",
+    "description": "Module for testing the operation of EMCX.",
+    "author": ["Asuniia","AsuniiaLeVrai#1234"],
+    "public": true,
+    "price": 10.89,
+    "enabled": false
+  }
+}

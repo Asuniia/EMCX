@@ -1,0 +1,36 @@
+{% extends '@admin/layout.twig' %}
+
+{% block title trans("emcx.admin.title") %}
+{% block pagetitle trans("emcx.admin.servers.title") %}
+{% block pagesubtitle  trans("emcx.admin.servers.subtitle") %}
+
+
+
+{% block body %}
+    <div class="alert alert-light" role="alert">
+        <i class="fa-solid fa-server"></i> Connecté sur le serveur : {{ selected_server|default('N/A') }}
+    </div>
+
+    <div class="row">
+
+
+        <div class="col-sm-3">
+                <div class="card text-center">
+                    <div class="card-header">
+                        ClientXApp
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Informations du serveur:</h5>
+                        <p class="card-text sm mb-1"><i class="fa-solid fa-bookmark"></i> Version EMCX : 1.0</p>
+                        <p class="card-text sm mb-1"><i class="fa-solid fa-bookmark"></i> Version ClientX : 2.6.1</p>
+                        <p class="card-text sm mb-1"><i class="fa-solid fa-border-all"></i> Modules en ligne : 45</p>
+                        <p class="card-text sm mb-1"><i class="fa-regular fa-compass"></i> Latence : 340ms</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a href="#" class="btn btn-primary">Rejoindre ce serveur</a>
+                    </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
