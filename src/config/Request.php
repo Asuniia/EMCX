@@ -34,7 +34,7 @@ class Request
         return json_decode($response->getBody()->getContents(), true);
     }
 
-    public function getClient()
+    public function getClient(): Client
     {
         return $this->client;
     }
