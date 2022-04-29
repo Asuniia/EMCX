@@ -20,15 +20,7 @@ class EMCXPingAction extends Action
 
     public function __invoke(): ResponseInterface
     {
-
-        /*$response = $this->emcx->getRequest()->getClient()->get('/repositories/list', [
-            'http_errors' => false,
-            'query' => [
-                'license' => $this->emcx->getConfig()['key']
-            ]
-        ]);
-
-        dd($response->getBody()->getContents());*/
+        
 
         return $this->json(
             [
