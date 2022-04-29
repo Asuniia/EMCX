@@ -28,12 +28,12 @@ class EMCXLoader
         $this->app->addModule(EMCXModule::class);
     }
 
-    public function getRequest()
+    public function getRequest(): Request
     {
         return $this->request;
     }
 
-    public function getConfig()
+    public function getConfig(): array
     {
         return $this->config->getConfig();
     }

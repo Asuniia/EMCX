@@ -20,7 +20,6 @@ class EMCXPingAction extends Action
 
     public function __invoke(): ResponseInterface
     {
-        
 
         return $this->json(
             [

@@ -32,7 +32,7 @@ class EMCXModuleBuilder
         })->toArray();
     }
 
-    public function getModulesPublic()
+    public function getModulesPublic(): array
     {
         return collect($this->getModules())->filter(function ($items) {
             return $items['public'] ?? $items;
@@ -64,7 +64,6 @@ class EMCXModuleBuilder
     public function run()
     {
         foreach ($this->getNamespace() as $items) {
-
             if (class_exists($items) == false) {
                 new EMCXException("A module contains an error. This can be due to the non-existence of the module or a configuration error", "EMCX_ERR_MODULES_LOAD");
             }
@@ -74,7 +73,7 @@ class EMCXModuleBuilder
         return $this->app->getContainer();
     }
 
-    public function getNamespace()
+    public function getNamespace(): array
     {
         return collect($this->getModulesEnabled())->filter()->map(function ($module) {
             return "App\\EMCX\\modules\\${module['type']}\\${module['name']}\\EMCX${module['name']}Module";
