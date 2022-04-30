@@ -17,7 +17,7 @@ class Configuration
         $this->items = json_decode(file_get_contents(dirname(__DIR__, 2) . self::MODULES_FILE), true);
     }
 
-    public function getConfig(): array
+    public function get(): array
     {
         return $this->config;
     }

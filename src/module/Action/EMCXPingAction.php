@@ -23,8 +23,8 @@ class EMCXPingAction extends Action
 
         return $this->json(
             [
-                "emcx_version" => $this->emcx->getConfig()['version'],
-                "clientx_version" => $this->container->get('app.version'),
+                "emcx_version" => $this->emcx->getConfig()->get()['version'],
+                "clientx_version" => (int)$this->container->get('app.version'),
                 "modules" => count($this->emcx->modules->getModulesPublic())
             ]
         );

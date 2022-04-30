@@ -22,9 +22,10 @@ class LicenseBuilder
         $response = $client->get('/license/get', [
             'http_errors' => false,
             'query' => [
-                'license' => $this->configuration->getConfig()['key']
+                'license' => $this->configuration->get()['key']
             ]
         ]);
+
 
         $this->data = json_decode($response->getBody()->getContents(), true);
 

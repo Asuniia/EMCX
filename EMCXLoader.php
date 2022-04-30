@@ -22,8 +22,8 @@ class EMCXLoader
     {
         $this->app = $app;
         $this->config = new Configuration();
-        $this->request = new Request($this->config, null);
-        new LicenseBuilder($this->request->getClient(), $this->config, $this->request->getServerData());
+        $this->request = new Request($this->config);
+        new LicenseBuilder($this->getRequest()->getClient(), $this->config, $this->request->getServerData());
         $this->modules = new EMCXModuleBuilder($this->app, $this->config->getItems());
         $this->app->addModule(EMCXModule::class);
     }
@@ -33,9 +33,9 @@ class EMCXLoader
         return $this->request;
     }
 
-    public function getConfig(): array
+    public function getConfig(): Configuration
     {
-        return $this->config->getConfig();
+        return $this->config;
     }
 
     public function inject()
