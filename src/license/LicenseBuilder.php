@@ -35,7 +35,7 @@ class LicenseBuilder
             new EMCXException("This license is disabled", "EMCX_LICENSE_DISABLED");
         } elseif ($response->getStatusCode() == 200) {
             $this->setServerParams();
-            return true;
+            return $this->data;
         } else {
             new EMCXException($this->data['message'], $this->data['code']);
         }

@@ -15,7 +15,7 @@ class EMCXLoader
     protected Configuration $config;
     public object $modules;
     protected Request $request;
-    protected array $server;
+    protected LicenseBuilder $license;
     protected App $app;
 
     public function __construct(App $app)
@@ -23,7 +23,7 @@ class EMCXLoader
         $this->app = $app;
         $this->config = new Configuration();
         $this->request = new Request($this->config);
-        new LicenseBuilder($this->getRequest()->getClient(), $this->config, $this->request->getServerData());
+        $this->license = new LicenseBuilder($this->getRequest()->getClient(), $this->config, $this->request->getServerData());
         $this->modules = new EMCXModuleBuilder($this->app, $this->config->getItems());
         $this->app->addModule(EMCXModule::class);
     }
@@ -33,9 +33,15 @@ class EMCXLoader
         return $this->request;
     }
 
+
     public function getConfig(): Configuration
     {
         return $this->config;
+    }
+
+    public function getLicense(): LicenseBuilder
+    {
+        return $this->license;
     }
 
     public function inject()

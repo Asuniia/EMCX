@@ -53,7 +53,8 @@ class EMCXServersAction extends Action
 
 
         return $this->render('@emcx_admin/servers', [
-            'selected_server' => $this->emcx->getConfig()->get()['online_server']
+            'selected_server' => $this->emcx->getConfig()->get()['online_server'],
+            'servers' => ''
         ]);
     }
 }
