@@ -2,21 +2,16 @@
 
 namespace App\EMCX\src\module\Action;
 
-use App\ClientX\Cache\LicenseCache;
 use App\EMCX\EMCXLoader;
-use App\EMCX\src\config\Request;
 use ClientX\Actions\Action;
 use ClientX\Renderer\RendererInterface;
 use GuzzleHttp\Exception\ConnectException;
-use GuzzleHttp\Exception\GuzzleException;
-use GuzzleHttp\Exception\RequestException;
 use Psr\Http\Message\ServerRequestInterface;
 
 class EMCXServersAction extends Action
 {
     protected EMCXLoader $emcx;
     protected array $endpoints = [];
-    protected LicenseCache $domain;
 
     /**
      * @param RendererInterface
@@ -29,19 +24,18 @@ class EMCXServersAction extends Action
 
     public function __invoke(ServerRequestInterface $request)
     {
-        $this->domain = new LicenseCache();
         $response = $this->emcx->getRequest()->getClient()->get('/repositories/all', [
             'http_errors' => false,
             'query' => [
                 'license' => $this->emcx->getConfig()->get()['key'],
-                'domain' => $this->domain->getLicense()->get('domain')
+                'domain' => $_SERVER['HTTP_HOST']
             ]
         ]);
 
         $obj = json_decode($response->getBody()->getContents(), true);
 
         foreach ($obj as $value) {
-            if (in_array($value['endpoint'], (array)$this->domain->getLicense()->get('domain'))) {
+            if (in_array($value['endpoint'],(array)(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')) . $_SERVER['HTTP_HOST']) {
                 continue;
             }
 

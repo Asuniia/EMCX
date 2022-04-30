@@ -16,7 +16,6 @@ class Request
     public function __construct(Configuration $configuration)
     {
         $this->configuration = $configuration;
-
         if ($this->configuration->get()['dev']) {
             return $this->client = new Client(['base_uri' => self::ENDPOINT_DEV_API]);
         } else {
