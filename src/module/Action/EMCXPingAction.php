@@ -22,7 +22,8 @@ class EMCXPingAction extends Action
     {
         return $this->json(
             [
-                $this->emcx->getLicense()->data['name'] => [
+                $this->emcx->getLicense()->data['id'] => [
+                    "emcx_name" => $this->emcx->getLicense()->data['name'],
                     "emcx_version" => $this->emcx->getConfig()->get()['version'],
                     "clientx_version" => floatval($this->container->get('app.version')),
                     "modules" => count($this->emcx->modules->getModulesPublic())
