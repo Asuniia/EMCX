@@ -6,6 +6,7 @@ use App\ClientX\Cache\LicenseCache;
 use App\EMCX\EMCXLoader;
 use ClientX\Actions\Action;
 use ClientX\Renderer\RendererInterface;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -13,6 +14,7 @@ class EMCXServersAction extends Action
 {
     protected EMCXLoader $emcx;
     protected array $endpoints = [];
+    protected array $servers = [];
 
     /**
      * @param RendererInterface
@@ -37,13 +39,12 @@ class EMCXServersAction extends Action
 
         foreach ($obj as $value) {
             try {
-                $data = (new \GuzzleHttp\Client())->get($value['endpoint'] . '/emcx/ping', [
+                $data = (new Client())->get($value['endpoint'] . '/emcx/ping', [
                     'http_errors' => false,
                     'timeout' => 0.0001
                 ]);
 
-
-                $this->endpoints = json_decode($data->getBody()->getContents(), true);
+                $this->endpoints[] = json_decode($data->getBody()->getContents(), true);
             } catch (ConnectException $exception) {
                 continue;
             }
