@@ -24,7 +24,7 @@ class EMCXPingAction extends Action
             [
                 $this->emcx->getLicense()->data['name'] => [
                     "emcx_version" => $this->emcx->getConfig()->get()['version'],
-                    "clientx_version" => (int)$this->container->get('app.version'),
+                    "clientx_version" => floatval($this->container->get('app.version')),
                     "modules" => count($this->emcx->modules->getModulesPublic())
                 ]
             ]
