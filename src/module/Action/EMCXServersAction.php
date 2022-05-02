@@ -29,22 +29,17 @@ class EMCXServersAction extends Action
             'http_errors' => false,
             'query' => [
                 'license' => $this->emcx->getConfig()->get()['key'],
-                'domain' => $_SERVER['HTTP_HOST']
+                'domain' => (new LicenseCache())->getLicense()->get('domain')
             ]
         ]);
 
         $obj = json_decode($response->getBody()->getContents(), true);
 
         foreach ($obj as $value) {
-            if ($this->emcx->getConfig()->get()['dev']) {
-                if (in_array($value['endpoint'], (array)"192.168.1.88:8000")) {
-                    continue;
-                }
-            } else {
-                if (in_array($value['endpoint'], (array)(string)(new LicenseCache())->getLicense()->get('domain'))) {
-                    continue;
-                }
+            if (in_array($value['endpoint'], (array)(string)(new LicenseCache())->getLicense()->get('domain'))) {
+                continue;
             }
+
 
             try {
                 $data = (new \GuzzleHttp\Client())->get($value['endpoint'] . '/emcx/ping', [
@@ -52,17 +47,15 @@ class EMCXServersAction extends Action
                     'timeout' => 0.0001
                 ]);
 
-                dd($data->getBody()->getContents());
-                return $this->endpoints = $data->getBody()->getContents();
+
+                return $this->endpoints = json_decode($data->getBody()->getContents(), true);
             } catch (ConnectException $exception) {
                 continue;
             }
         }
-        var_dump($this->endpoints);
 
         return $this->render('@emcx_admin/servers', [
             'selected_server' => $this->emcx->getConfig()->get()['online_server'],
-            'servers' => ''
         ]);
     }
 }
