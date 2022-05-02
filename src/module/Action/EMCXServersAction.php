@@ -2,6 +2,7 @@
 
 namespace App\EMCX\src\module\Action;
 
+use App\ClientX\Cache\LicenseCache;
 use App\EMCX\EMCXLoader;
 use ClientX\Actions\Action;
 use ClientX\Renderer\RendererInterface;
@@ -35,8 +36,14 @@ class EMCXServersAction extends Action
         $obj = json_decode($response->getBody()->getContents(), true);
 
         foreach ($obj as $value) {
-            if (in_array($value['endpoint'],(array)(isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')) . $_SERVER['HTTP_HOST']) {
-                continue;
+            if ($this->emcx->getConfig()->get()['dev']) {
+                if (in_array($value['endpoint'], (array)"192.168.1.88:8000")) {
+                    continue;
+                }
+            } else {
+                if (in_array($value['endpoint'], (array)(string)(new LicenseCache())->getLicense()->get('domain'))) {
+                    continue;
+                }
             }
 
             try {
@@ -44,13 +51,14 @@ class EMCXServersAction extends Action
                     'http_errors' => false,
                     'timeout' => 0.0001
                 ]);
+
+                dd($data->getBody()->getContents());
+                return $this->endpoints = $data->getBody()->getContents();
             } catch (ConnectException $exception) {
                 continue;
             }
-
-            dd($data->getBody()->getContents());
         }
-
+        var_dump($this->endpoints);
 
         return $this->render('@emcx_admin/servers', [
             'selected_server' => $this->emcx->getConfig()->get()['online_server'],

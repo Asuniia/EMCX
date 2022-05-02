@@ -2,10 +2,12 @@
 
 namespace App\EMCX\src\license;
 
+use App\ClientX\Cache\LicenseCache;
 use App\EMCX\src\config\Configuration;
 use App\EMCX\src\config\Request;
 use App\EMCX\src\Exception\EMCXException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 
 class LicenseBuilder
 {
@@ -19,13 +21,18 @@ class LicenseBuilder
         $this->server = $server;
         $this->configuration = $configuration;
 
-        $response = $client->get('/license/get', [
-            'http_errors' => false,
-            'query' => [
-                'license' => $this->configuration->get()['key']
-            ]
-        ]);
-
+        try {
+            $response = $client->get('/license/get', [
+                'http_errors' => false,
+                'timeout' => 2,
+                'query' => [
+                    'license' => $this->configuration->get()['key'],
+                    'domain' => (new LicenseCache())->getLicense()->get('domain')
+                ]
+            ]);
+        } catch (ConnectException $exception) {
+            new EMCXException("API is down", "EMCX_API_NETWORK_DOWN");
+        }
 
         $this->data = json_decode($response->getBody()->getContents(), true);
 
@@ -45,7 +52,7 @@ class LicenseBuilder
     private function setServerParams()
     {
         if ($this->server['forceUpdate']) {
-            if ($this->configuration->getConfig()['version'] != $this->server['version']) {
+            if ($this->configuration->get()['version'] != $this->server['version']) {
                 die("EMCX Update... Please wait... VERSION:" . $this->server['version'] . " SERVER: " . $this->server['server']);
             }
         }
