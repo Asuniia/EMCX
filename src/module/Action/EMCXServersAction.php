@@ -36,10 +36,6 @@ class EMCXServersAction extends Action
         $obj = json_decode($response->getBody()->getContents(), true);
 
         foreach ($obj as $value) {
-            if (in_array($value['endpoint'], (array)(string)(new LicenseCache())->getLicense()->get('domain'))) {
-                continue;
-            }
-
             try {
                 $data = (new \GuzzleHttp\Client())->get($value['endpoint'] . '/emcx/ping', [
                     'http_errors' => false,
