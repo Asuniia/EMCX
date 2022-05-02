@@ -40,7 +40,6 @@ class EMCXServersAction extends Action
                 continue;
             }
 
-
             try {
                 $data = (new \GuzzleHttp\Client())->get($value['endpoint'] . '/emcx/ping', [
                     'http_errors' => false,
@@ -48,7 +47,7 @@ class EMCXServersAction extends Action
                 ]);
 
 
-                return $this->endpoints = json_decode($data->getBody()->getContents(), true);
+                $this->endpoints = json_decode($data->getBody()->getContents(), true);
             } catch (ConnectException $exception) {
                 continue;
             }
@@ -56,6 +55,7 @@ class EMCXServersAction extends Action
 
         return $this->render('@emcx_admin/servers', [
             'selected_server' => $this->emcx->getConfig()->get()['online_server'],
+            'servers' => $this->endpoints
         ]);
     }
 }
