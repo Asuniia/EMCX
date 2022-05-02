@@ -8,7 +8,7 @@
 
 {% block body %}
     <div class="alert alert-light" role="alert">
-        <i class="fa-solid fa-server"></i> Connecté sur le serveur : {{ selected_server|default('N/A') }}
+        <i class="fa-solid fa-server"></i> {{trans("emcx.admin.servers.connected_to")}} : {{ selected_server|default('N/A') }}
     </div>
 
     <div class="row">
@@ -16,24 +16,36 @@
 
 
 
-        
-        <div class="col-sm-3">
+        {% for server in servers%}
+            <div class="col-sm-3">
                 <div class="card text-center">
                     <div class="card-header">
-                        ClientXApp
+                        {{ server.emcx_name }}
                     </div>
                     <div class="card-body">
-                        <h5 class="card-title">Informations du serveur:</h5>
-                        <p class="card-text sm mb-1"><i class="fa-solid fa-bookmark"></i> Version EMCX : 1.0</p>
-                        <p class="card-text sm mb-1"><i class="fa-solid fa-bookmark"></i> Version ClientX : 2.6.1</p>
-                        <p class="card-text sm mb-1"><i class="fa-solid fa-border-all"></i> Modules en ligne : 45</p>
-                        <p class="card-text sm mb-1"><i class="fa-regular fa-compass"></i> Latence : 340ms</p>
+                        <h5 class="card-title">{{trans("emcx.admin.servers.server_info")}} :</h5>
+                        <p class="card-text sm mb-1"><i class="fa-solid fa-bookmark"></i> Version EMCX : {{ server.emcx_version }}</p>
+                        <p class="card-text sm mb-1"><i class="fa-solid fa-bookmark"></i> Version ClientX : {{ server.clientx_version }}</p>
+                        <p class="card-text sm mb-1"><i class="fa-solid fa-border-all"></i>{{trans("emcx.admin.servers.server_module")}} : {{ server.modules }}</p>
                     </div>
                     <div class="card-footer text-muted">
-                        <a href="#" class="btn btn-primary">Rejoindre ce serveur</a>
+                        {% if selected_server == server.emcx_name %}
+                        <a href="#" class="btn btn-success disabled">{{trans("emcx.admin.servers.server_already_join")}}</a>
+                            {% else %}
+                                <a href="#" class="btn btn-primary">{{trans("emcx.admin.servers.server_join")}}</a>
+                        {% endif %}
                     </div>
             </div>
         </div>
+            {% else %}
+                <div class="col-sm-3">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            {{trans("emcx.admin.servers.no_online_server")}}
+                        </div>
+                    </div>
+                </div>
+        {% endfor %}
 
     </div>
 {% endblock %}
