@@ -3,9 +3,12 @@
     "name": "Exemple",
     "version": 1.0,
     "type": "module",
+    "config": true,
     "repo": "ClientXApp",
     "description": "Module for testing the operation of EMCX.",
     "author": ["Asuniia","AsuniiaLeVrai#1234"],
+    "support": "https://discord.gg/",
+    "contact": "https://emcx.aktech.fr/",
     "public": true,
     "price": 10.89,
     "enabled": false
