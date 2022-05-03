@@ -16,6 +16,7 @@ return [
                 "server_info" => "Informations du serveur",
                 "server_module" => "Modules en ligne",
                 "server_join" => "Rejoindre le serveur",
+                "server_logout" => "Déconnexion",
                 "server_already_join" => "Vous êtes déjà connecté",
                 "no_online_server" => "Aucun serveur en ligne"
             ]
