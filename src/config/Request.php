@@ -2,8 +2,10 @@
 
 namespace App\EMCX\src\config;
 
+use App\ClientX\Cache\LicenseCache;
 use App\EMCX\src\Exception\EMCXException;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\ConnectException;
 
 class Request
 {
@@ -33,6 +35,19 @@ class Request
             'http_errors' => false,
         ]);
         return json_decode($response->getBody()->getContents(), true);
+    }
+
+    public function getServerEndpoint()
+    {
+            $response = $this->client->get('/repositories/server', [
+                'http_errors' => false,
+                'query' => [
+                    'license' => $this->configuration->get()['key'],
+                    'domain' => (new LicenseCache())->getLicense()->get('domain'),
+                    'name' => $this->configuration->get()['online_server']
+                ]
+            ]);
+            return json_decode($response->getBody()->getContents(), true);
     }
 
     public function getClient(): Client
