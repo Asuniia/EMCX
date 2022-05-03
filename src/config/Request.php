@@ -44,7 +44,7 @@ class Request
                 'query' => [
                     'license' => $this->configuration->get()['key'],
                     'domain' => (new LicenseCache())->getLicense()->get('domain'),
-                    'name' => $this->configuration->get()['online_server']
+                    'name' => $this->configuration->get()['online_server'] ?: 'NA'
                 ]
             ]);
             return json_decode($response->getBody()->getContents(), true);

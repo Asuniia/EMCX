@@ -14,8 +14,8 @@ use Psr\Http\Message\ServerRequestInterface;
 class EMCXIndexAction extends Action
 {
     protected EMCXLoader $emcx;
-    protected array $server = [];
-    protected array $modules = [];
+    protected ?array $server = null;
+    protected ?array $modules = null;
 
     /**
      * @param RendererInterface
@@ -29,7 +29,14 @@ class EMCXIndexAction extends Action
 
     public function __invoke(ServerRequestInterface $request)
     {
-        $this->server = $this->emcx->getRequest()->getServerEndpoint()[0];
+        $this->server = $this->emcx->getRequest()->getServerEndpoint();
+
+        if (!$this->server) {
+            return $this->render('@emcx_admin/index', [
+                'selected_server' => $this->emcx->getConfig()->get()['online_server'],
+                'modules' => $this->modules,
+            ]);
+        }
 
         try {
             $data = (new Client())->get($this->server['endpoint'] . '/emcx/repository', [
@@ -41,6 +48,7 @@ class EMCXIndexAction extends Action
         } catch (ConnectException $exception) {
             $this->error("EMCX Server is down.");
         }
+
 
         return $this->render('@emcx_admin/index', [
             'selected_server' => $this->emcx->getConfig()->get()['online_server'],
