@@ -22,6 +22,17 @@ class Configuration
         return $this->config;
     }
 
+    public function set($array, $keys)
+    {
+        $this->config[$array] = $keys;
+        $this->save($this->config);
+    }
+
+    public function save(array $config)
+    {
+        file_put_contents(dirname(__DIR__, 2) . self::SETTINGS_FILE, json_encode($config, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT));
+    }
+
     public function getItems(): array
     {
         return $this->items;

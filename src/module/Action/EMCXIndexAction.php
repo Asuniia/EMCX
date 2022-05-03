@@ -46,9 +46,7 @@ class EMCXIndexAction extends Action
 
             $this->modules = json_decode($data->getBody()->getContents(), true);
         } catch (ConnectException $exception) {
-            $this->error("EMCX Server is down.");
         }
-
 
         return $this->render('@emcx_admin/index', [
             'selected_server' => $this->emcx->getConfig()->get()['online_server'],

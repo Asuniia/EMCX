@@ -27,7 +27,8 @@ class EMCXModule extends Module
             $prefix = $container->get('admin.prefix');
             $router->get($prefix . "/emcx", EMCXIndexAction::class, 'admin.emcx.index');
             $router->get($prefix . "/emcx/servers", EMCXServersAction::class, 'admin.emcx.servers');
-            $router->get($prefix . "/emcx/servers/join", EMCXServerJoinAction::class, 'admin.emcx.servers.join');
+            $router->get($prefix . "/emcx/servers/join/[:name]", EMCXServerJoinAction::class, 'admin.emcx.servers.join');
+            $router->get($prefix . "/emcx/servers/logout", EMCXServerJoinAction::class, 'admin.emcx.servers.logout');
         }
         $router->get("/emcx/ping", EMCXPingAction::class, 'emcx.ping');
         $router->get("/emcx/repository", EMCXModuleAction::class, 'emcx.repository');

@@ -7,7 +7,7 @@
 {% block buttoninfo %}
     <div class="col-sm-6">
         <a class="btn btn-default btn-md float-right"
-           href="{{ path('admin.emcx.servers') }}">{{ trans('emcx.admin.change_repo') }} <i class="fa-regular fa-compass"></i></a>
+           href="{{ path('admin.emcx.servers') }}"><i class="fa-regular fa-compass"></i> {{ trans('emcx.admin.change_repo') }}</a>
     </div>
 {% endblock %}
 
@@ -24,15 +24,15 @@
                     <i class="fas fa-star"></i>
                 </b>
         </h1>
-        <p class="lead fw-normal text-muted mb-5">Découvrez un catalogue de produits sur un magasin alternatif!</p>
+        <p class="lead fw-normal text-muted mb-5">{{ trans('emcx.admin.welcome_text') }}</p>
     </div>
 
     <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-        <h3>Installés</h3>
+        <h3>{{ trans('emcx.admin.installed') }}</h3>
     </div>
 
     <div class="col-lg-6 order-lg-1 my-auto showcase-text">
-        <h3>En ligne</h3>
+        <h3>{{ trans('emcx.admin.online') }}</h3>
     </div>
         <div class="row">
     {% for module in modules %}
@@ -74,7 +74,7 @@
                                         <a type="button" class="btn btn-outline-primary btn-sm"
                                                 data-update-route="#download">
                                             <i class="fa-solid fa-coins"></i>
-                                            ACHETER
+                                            {{ trans('emcx.admin.buy')|upper }}
                                             <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
                                         </a>
                                     </form>
@@ -84,13 +84,13 @@
                                         <a type="button" class="btn btn-outline-success btn-sm"
                                            data-update-route="#download">
                                             <i class="fas fa-cloud-download-alt"></i>
-                                            TELECHARGER
+                                            {{ trans('emcx.admin.download')|upper }}
                                             <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
                                         </a>
                                     </form>
                                     {% endif %}
                                     <p class="text-muted text-sm">
-                                        <b>A PROPOS :</b>
+                                        <b>{{ trans('emcx.admin.about') }} :</b>
                                         {{ module.description }}
                                     </p>
                                     <ul class="ml-4 mb-0 fa-ul text-muted">
@@ -98,7 +98,7 @@
                                     <span class="fa-li">
                                         <i class="fas fa-lg fa-life-ring"></i>
                                     </span>
-                                            AUTEUR :
+                                            {{ trans('emcx.admin.author') }} :
                                                 <ul class="ml-4 mb-0 fa-ul text-muted">
                                                     {% for author in module.author %}
                                                     <li>{{ author }}</li>
@@ -109,23 +109,23 @@
                                     <span class="fa-li">
                                         <i class="fas fa-lg fa-pen"></i>
                                     </span>
-                                            MIS A JOUR : 11/08/2001
+                                            {{ trans('emcx.admin.updated') }} : 11/08/2001
                                         </li>
                                         <li class="small">
                                         <span class="fa-li">
                                             <i class="fas fa-lg fa-code-branch"></i>
                                         </span>
-                                            VERSION : v{{ module.version }}
+                                            {{ trans('emcx.admin.version') }} : v{{ module.version }}
                                         </li>
                                         <li class="small">
                                     <span class="fa-li">
                                         <i class="fas fa-lg fa-tag"></i>
                                     </span>
-                                            PRIX :
+                                            {{ trans('emcx.admin.price') }} :
                                             {% if module.price > 0.01 %}
                                                 <span class="badge badge-warning">{{ module.price }}€</span>
                                             {% else %}
-                                                <span class="badge badge-primary">GRATUIT</span>
+                                                <span class="badge badge-primary">{{ trans('emcx.admin.free') }}</span>
                                             {% endif %}
                                         </li>
                                     </ul>
@@ -153,11 +153,11 @@
                                         <i class="fa-solid fa-trash-can"></i>
                                     </a>
                                     <button type="button" class="btn btn-danger btn-sm" data-update-route="#switch">
-                                        <i class="fas fa-sync"></i>DESACTIVER
+                                        <i class="fas fa-sync"></i>{{ trans('emcx.admin.disable') }}
                                         <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
                                     </button>
                                     <button type="button" class="btn btn-success btn-sm" data-update-route="#switch">
-                                        <i class="fas fa-sync"></i>ACTIVER
+                                        <i class="fas fa-sync"></i>{{ trans('emcx.admin.enable') }}
                                         <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
                                     </button>
                                 </form>
@@ -167,15 +167,29 @@
                 </div>
     {% endfor %}
         </div>
+        {%elseif selected_server is null %}
+            <div class="card text-white bg-gradient-purple">
+                <div class="card-header">{{ trans('emcx.admin.unknown_selected_server.unknown_server') }}</div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ trans('emcx.admin.welcome') }}</h5>
+                    <p class="card-text">{{ trans('emcx.admin.unknown_selected_server.unknown_content') }}</p>
+                    <div class="card-footer bg-transparent border-success">
+                        <a type="button" href="{{ path('admin.emcx.servers') }}" class="btn btn-light btn-sm" data-update-route="#switch">
+                            <i class="fa-regular fa-compass"></i> {{ trans('emcx.admin.change_repo')|upper }}
+                            <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
     {% else %}
         <div class="card text-white bg-danger">
-            <div class="card-header">Erreur</div>
+            <div class="card-header">{{ trans('emcx.admin.error') }}</div>
             <div class="card-body">
-                <h5 class="card-title">Impossible de joindre le serveur {{ selected_server }}</h5>
-                <p class="card-text">Veuillez changer de serveur ou réessayer plus tard. Si l'erreur persiste, contacter l'administrateur du serveur.</p>
+                <h5 class="card-title">{{ trans('emcx.admin.error_selected_server.error_server') }} {{ selected_server }}</h5>
+                <p class="card-text">{{ trans('emcx.admin.error_selected_server.error_content') }}</p>
                 <div class="card-footer bg-transparent border-success">
                     <a type="button" href="{{ path('admin.emcx') }}" class="btn btn-success btn-sm" data-update-route="#switch">
-                        <i class="fas fa-sync"></i> RÉESSAYER
+                        <i class="fas fa-sync"></i> {{ trans('emcx.admin.retry')|upper }}
                         <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
                     </a>
                     <a type="button" href="{{ path('admin.emcx.servers') }}" class="btn btn-light btn-sm" data-update-route="#switch">

@@ -4,7 +4,12 @@
 {% block pagetitle trans("emcx.admin.servers.title") %}
 {% block pagesubtitle  trans("emcx.admin.servers.subtitle") %}
 
-
+{% block buttoninfo %}
+    <div class="col-sm-6">
+        <a class="btn btn-default btn-md float-right"
+           href="{{ path('admin.emcx.index') }}"><i class="fa-solid fa-arrow-left"></i> {{ trans('emcx.admin.back_home') }}</a>
+    </div>
+{% endblock %}
 
 {% block body %}
 
@@ -34,9 +39,9 @@
                     </div>
                     <div class="card-footer text-muted">
                         {% if selected_server == server.emcx_name %}
-                            <a href="#" type="button" class="btn btn-danger">{{ trans("emcx.admin.servers.server_logout") }}</a>
+                            <a href="{{ path('admin.emcx.servers.logout') }}" type="button" class="btn btn-danger">{{ trans("emcx.admin.servers.server_logout") }}</a>
                         {% else %}
-                            <a href="#" class="btn btn-primary">{{ trans("emcx.admin.servers.server_join") }}</a>
+                            <a href="{{ path('admin.emcx.servers.join', {name: server.emcx_name }) }}" class="btn btn-primary">{{ trans("emcx.admin.servers.server_join") }}</a>
                         {% endif %}
                     </div>
                 </div>
