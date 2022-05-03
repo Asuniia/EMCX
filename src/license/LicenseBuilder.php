@@ -31,7 +31,7 @@ class LicenseBuilder
                 ]
             ]);
         } catch (ConnectException $exception) {
-            new EMCXException("API is down", "EMCX_API_NETWORK_DOWN");
+            return new EMCXException("API is down", "EMCX_API_NETWORK_DOWN");
         }
 
         $this->data = json_decode($response->getBody()->getContents(), true);
