@@ -14,165 +14,145 @@
 
 {% block body %}
 
-
-    <div class="col-12">
-        <div class="callout callout-danger alert-dismissible">
-            EMCX : Maintenance de l'API à 16h !
-        </div>
+    <div class="mb-5 mb-lg-0 text-center text-lg-start">
+        <h1 class="display-3 lh-1 mb-3">
+                <b class="text-warning">
+                    <i class="fas fa-star"></i>
+                </b>
+                {{ selected_server }}
+                <b class="text-warning">
+                    <i class="fas fa-star"></i>
+                </b>
+        </h1>
+        <p class="lead fw-normal text-muted mb-5">Découvrez un catalogue de produits sur un magasin alternatif!</p>
     </div>
 
-    <div class="row">
+    <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+        <h3>Installés</h3>
+    </div>
 
-        <div class="col-12 col-sm-12 col-md-4 col-xl-3 d-flex align-items-stretch flex-column">
-            <div class="card d-flex flex-fill">
-                <div class="card-header text-muted border-bottom-0 d-flex">
-                    <div class="p-2 flex-grow-1 ">
-                        NOM
-                            <span class="badge badge-success">ACTIF</span>
-                            <span class="badge badge-danger">NON ACTIF</span>
-                            <span class="badge badge-info">METTRE A JOUR</span>
-                    </div>
-
-                        <div class="p-2">
-                            <a href="#config"
-                               class="btn btn-sm bg-purple" target="_BLANK">
-                                <i class="fas fa-cog"></i>
-                            </a>
-                        </div>
-                </div>
-
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-7 card-about-container">
-                            <h2 class="lead">
-                                <b>
-                                    MODULE OFFICIEL
-
+    <div class="col-lg-6 order-lg-1 my-auto showcase-text">
+        <h3>En ligne</h3>
+    </div>
+        <div class="row">
+    {% for module in modules %}
+            <div class="col-12 col-sm-12 col-md-4 col-xl-3 d-flex align-items-stretch flex-column">
+                    <div class="card d-flex flex-fill">
+                        <div class="card-header text-muted border-bottom-0 d-flex">
+                            <div class="p-2 flex-grow-1 ">
+                                <span class="badge badge-warning">{{ module.type|upper }}</span>
+                                {%if selected_server == module.repo %}
                                     <b class="text-warning">
                                         <i class="fas fa-star"></i>
                                     </b>
-                                </b>
-                            </h2>
-                                <form method="POST"
-                                      action="#download">
+                                {% endif %}
+                                {{ module.name }}
 
-                                        <button type="button" class="btn btn-info btn-sm"
-                                                data-update-route="#download">
-                                            <i class="fas fa-cloud-download-alt"></i>
-                                                TELECHARGER
-                                                    /
-                                                RE INSTALLER
-                                            <span class="spinner-border spinner-border-sm btn-spinner d-none"
-                                                  role="status"></span>
-                                        </button>
+                                <!--
+                                    <span class="badge badge-success">ACTIF</span>
+                                    <span class="badge badge-danger">NON ACTIF</span>
+                                    <span class="badge badge-info">METTRE A JOUR</span>
+                                    -->
+                            </div>
 
-                                        <button type="button" class="btn btn-info btn-sm"
-                                                data-update-route="#download">
-                                            <i class="fas fa-cloud-download-alt"></i>
-                                                TELECHARGER
-                                            <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
-                                        </button>
-                                </form>
-                            <p class="text-muted text-sm">
-                                <b>
-                                    A PROPOS
-                                    :
-                                </b>
-                                DESCRIPTION
-                            </p>
-                            <ul class="ml-4 mb-0 fa-ul text-muted">
-                                <li class="small">
-                                                    <span class="fa-li">
-                                                        <i class="fas fa-lg fa-life-ring"></i>
-                                                    </span>
-                                    SUPPORT
-                                    :
-
-                                    LISTE SUPPORT
-                                </li>
-                                <li class="small">
-                                                    <span class="fa-li">
-                                                        <i class="fas fa-lg fa-pen"></i>
-                                                    </span>
-                                    MIS A JOUR LE
-                                    :
-
-                                    11/08/2001
-                                </li>
-
-                                    <li class="small">
-                                                    <span class="fa-li">
-                                                        <i class="fas fa-lg fa-code-branch"></i>
-                                                    </span>
-                                        VERSION
-                                        :
-
-                                        V1.0
-                                    </li>
-                                <li class="small">
-                                                    <span class="fa-li">
-                                                        <i class="fas fa-lg fa-tag"></i>
-                                                    </span>
-
-                                    PRIX
-                                    :
-                                        <span class="badge badge-success">GRATUIT</span>
-                                        <span class="badge badge-info">15€</span>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-5 text-center card-logo-container">
-                            <img src="#Logo_url" alt="#Module_name" class="card-logo" style="max-width: 100%; max-height: 100%"
-                                 class="img-fluid">
-                        </div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <div class="text-right">
-                        <form method="POST"
-                              action="#switch">
-
-                                <a href="#SUPPORT_URL" class="btn btn-sm bg-success"
-                                   target="_BLANK">
-                                    <i class="fas fa-home"></i>
+                            {% if module.config == true %}
+                            <div class="p-2">
+                                <a href="/admin/{{ module.name|lower }}/config"
+                                   class="btn btn-sm bg-purple">
+                                    <i class="fas fa-cog"></i>
                                 </a>
+                            </div>
+                            {% endif %}
+                        </div>
 
-
-                            <a href="#SUPPORT_DISCORD" class="btn btn-sm bg-teal" target="_BLANK">
-                                <i class="fas fa-life-ring"></i>
-                            </a>
-
-                            <a href="#" class="btn btn-sm btn-primary btn-tools"
-                               data-name="#module_name"
-                               data-url="#module_details">
-                                <i class="fas fa-list-ul loader"></i>
-                                CHANGELOG
-                            </a>
-
-
-                                    <button type="button" class="btn btn-danger btn-sm"
-                                            data-update-route="#switch">
-                                        <i class="fas fa-sync"></i>
-                                        DESACTIVER
-                                        <span class="spinner-border spinner-border-sm btn-spinner d-none"
-                                              role="status"></span>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-7 card-about-container">
+                                    <form method="POST"
+                                          action="#download">
+                                        <a type="button" class="btn btn-outline-success btn-sm"
+                                                data-update-route="#download">
+                                            <i class="fas fa-cloud-download-alt"></i>
+                                            TELECHARGER
+                                            <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
+                                        </a>
+                                    </form>
+                                    <p class="text-muted text-sm">
+                                        <b>A PROPOS :</b>
+                                        {{ module.description }}
+                                    </p>
+                                    <ul class="ml-4 mb-0 fa-ul text-muted">
+                                        <li class="small">
+                                    <span class="fa-li">
+                                        <i class="fas fa-lg fa-life-ring"></i>
+                                    </span>
+                                            AUTEUR :
+                                            {% for author in module.author %}
+                                                <ul class="ml-4 mb-0 fa-ul text-muted">
+                                                    <li>{{ author }}</li>
+                                                </ul>
+                                            {% endfor %}
+                                        </li>
+                                        <li class="small">
+                                    <span class="fa-li">
+                                        <i class="fas fa-lg fa-pen"></i>
+                                    </span>
+                                            MIS A JOUR LE : 11/08/2001
+                                        </li>
+                                        <li class="small">
+                                        <span class="fa-li">
+                                            <i class="fas fa-lg fa-code-branch"></i>
+                                        </span>
+                                            VERSION : v{{ module.version }}
+                                        </li>
+                                        <li class="small">
+                                    <span class="fa-li">
+                                        <i class="fas fa-lg fa-tag"></i>
+                                    </span>
+                                            PRIX :
+                                            {% if module.price > 0.01 %}
+                                                <span class="badge badge-warning">{{ module.price }}€</span>
+                                            {% else %}
+                                                <span class="badge badge-primary">GRATUIT</span>
+                                            {% endif %}
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-5 text-center text-purple card-logo-container">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="text-right">
+                                <form method="POST"
+                                      action="#switch">
+                                    <a href="{{ module.contact }}" class="btn btn-sm bg-gradient-indigo"
+                                       target="_BLANK">
+                                        <i class="fas fa-home"></i>
+                                    </a>
+                                    <a href="{{ module.support }}" class="btn btn-sm bg-olive" target="_BLANK">
+                                        <i class="fas fa-life-ring"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-sm bg-gradient-dark"
+                                       target="_BLANK">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-danger btn-sm" data-update-route="#switch">
+                                        <i class="fas fa-sync"></i>DESACTIVER
+                                        <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
                                     </button>
-
-                                    <button type="button" class="btn btn-success btn-sm"
-                                            data-update-route="#switch">
-                                        <i class="fas fa-sync"></i>
-                                        ACTIVER
-                                        <span class="spinner-border spinner-border-sm btn-spinner d-none"
-                                              role="status"></span>
+                                    <button type="button" class="btn btn-success btn-sm" data-update-route="#switch">
+                                        <i class="fas fa-sync"></i>ACTIVER
+                                        <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
                                     </button>
-
-                        </form>
-
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-            </div>
+    {% endfor %}
         </div>
-    </div>
-
 {% endblock %}
