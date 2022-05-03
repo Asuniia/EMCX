@@ -5,6 +5,7 @@ use App\EMCX\EMCXLoader;
 use App\EMCX\src\module\Action\EMCXIndexAction;
 use App\EMCX\src\module\Action\EMCXModuleAction;
 use App\EMCX\src\module\Action\EMCXPingAction;
+use App\EMCX\src\module\Action\EMCXServerJoinAction;
 use App\EMCX\src\module\Action\EMCXServersAction;
 use ClientX\Module;
 use ClientX\Renderer\RendererInterface;
@@ -26,6 +27,7 @@ class EMCXModule extends Module
             $prefix = $container->get('admin.prefix');
             $router->get($prefix . "/emcx", EMCXIndexAction::class, 'admin.emcx.index');
             $router->get($prefix . "/emcx/servers", EMCXServersAction::class, 'admin.emcx.servers');
+            $router->get($prefix . "/emcx/servers/join", EMCXServerJoinAction::class, 'admin.emcx.servers.join');
         }
         $router->get("/emcx/ping", EMCXPingAction::class, 'emcx.ping');
         $router->get("/emcx/repository", EMCXModuleAction::class, 'emcx.repository');
