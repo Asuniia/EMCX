@@ -15,7 +15,7 @@ class EMCXIndexAction extends Action
 {
     protected EMCXLoader $emcx;
     protected ?array $server = null;
-    protected ?array $modules = null;
+    protected ?array $online_modules = null;
 
     /**
      * @param RendererInterface
@@ -31,10 +31,11 @@ class EMCXIndexAction extends Action
     {
         $this->server = $this->emcx->getRequest()->getServerEndpoint();
 
+
         if (!$this->server) {
             return $this->render('@emcx_admin/index', [
                 'selected_server' => $this->emcx->getConfig()->get()['online_server'],
-                'modules' => $this->modules,
+                'installed_modules' => $this->emcx->modules->getModules(),
             ]);
         }
 
@@ -44,13 +45,14 @@ class EMCXIndexAction extends Action
                 'timeout' => 0.0001
             ]);
 
-            $this->modules = json_decode($data->getBody()->getContents(), true);
+            $this->online_modules = json_decode($data->getBody()->getContents(), true);
         } catch (ConnectException $exception) {
         }
 
         return $this->render('@emcx_admin/index', [
             'selected_server' => $this->emcx->getConfig()->get()['online_server'],
-            'modules' => $this->modules,
+            'installed_modules' => $this->emcx->modules->getModules(),
+            'modules' => $this->online_modules,
         ]);
     }
 }

@@ -29,6 +29,7 @@ return [
             "online" => "En ligne",
             "buy" => "Acheter",
             "download" => "Télécharger",
+            "delete" => "Supprimer",
             "about" => "A propos",
             "author" => "Auteur",
             "updated" => "Mis à jour",

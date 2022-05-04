@@ -2,6 +2,7 @@
 
 namespace App\EMCX\src\loader\module;
 
+use App\EMCX\EMCXLoader;
 use App\EMCX\src\Exception\EMCXException;
 use ClientX\App;
 use ClientX\Helpers\Str;
@@ -9,12 +10,12 @@ use ClientX\Helpers\Str;
 class EMCXModuleBuilder
 {
 
-    protected App $app;
+    protected EMCXLoader $emcx;
     protected array $items = [];
 
-    public function __construct(App $app, $items)
+    public function __construct(EMCXLoader $emcx, $items)
     {
-        $this->app = $app;
+        $this->emcx = $emcx;
         $this->items = $items;
     }
 
@@ -49,7 +50,7 @@ class EMCXModuleBuilder
             }
 
             if ($items::DEFINITIONS) {
-                $this->app->builder->addDefinitions($items::DEFINITIONS);
+                $this->emcx->getApp()->builder->addDefinitions($items::DEFINITIONS);
             }
 
             /*if ($module::TRANSLATIONS) {
@@ -64,13 +65,13 @@ class EMCXModuleBuilder
     public function run()
     {
         foreach ($this->getNamespace() as $items) {
-            if (class_exists($items) == false) {
+            if (!class_exists($items)) {
                 new EMCXException("A module contains an error. This can be due to the non-existence of the module or a configuration error", "EMCX_ERR_MODULES_LOAD");
             }
 
-            return $this->app->getContainer()->get($items);
+            return $this->emcx->getApp()->getContainer()->get($items);
         }
-        return $this->app->getContainer();
+        return $this->emcx->getApp()->getContainer();
     }
 
     public function getNamespace(): array

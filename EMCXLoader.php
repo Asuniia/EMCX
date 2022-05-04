@@ -24,8 +24,13 @@ class EMCXLoader
         $this->config = new Configuration();
         $this->request = new Request($this->config);
         $this->license = new LicenseBuilder($this->getRequest()->getClient(), $this->config, $this->request->getServerData());
-        $this->modules = new EMCXModuleBuilder($this->app, $this->config->getItems());
+        $this->modules = new EMCXModuleBuilder($this, $this->config->getItems());
         $this->app->addModule(EMCXModule::class);
+    }
+
+    public function getApp(): App
+    {
+        return $this->app;
     }
 
     public function getRequest(): Request

@@ -29,6 +29,7 @@ return [
             "online" => "Online",
             "buy" => "Buy",
             "download" => "Download",
+            "delete" => "Delete",
             "about" => "About",
             "author" => "Author",
             "updated" => "Update",

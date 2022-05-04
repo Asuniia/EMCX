@@ -1,5 +1,5 @@
-{
-  "ExempleModule": {
+[
+  {
     "name": "Exemple",
     "version": 1.0,
     "type": "module",
@@ -13,4 +13,4 @@
     "price": 10.89,
     "enabled": false
   }
-}
+]
