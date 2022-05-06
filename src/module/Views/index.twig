@@ -56,6 +56,7 @@
                         <span class="badge badge-info">METTRE A JOUR</span>
                         -->
                 </div>
+                {% if module.enabled == true %}
                 {% if module.config == true %}
                     <div class="p-2">
                         <a href="/admin/{{ module.name }}/config"
@@ -63,6 +64,7 @@
                             <i class="fas fa-cog"></i>
                         </a>
                     </div>
+                {% endif %}
                 {% endif %}
             </div>
 
@@ -90,16 +92,23 @@
                                 </span>
                                 {{ trans('emcx.admin.author') }} :
                                 <ul class="ml-4 mb-0 fa-ul text-muted">
-                                    {% for author in module.author%}
+                                    {% for author in module.author %}
                                         <li>{{ author }}</li>
                                     {% endfor %}
                                 </ul>
                             </li>
                             <li class="small">
-                                <span class="fa-li">
-                                    <i class="fas fa-lg fa-pen"></i>
-                                </span>
-                                {{ trans('emcx.admin.updated') }} : 11/08/2001
+                                    <span class="fa-li">
+                                        <i class="fas fa-lg fa-pen"></i>
+                                    </span>
+                                {{ trans('emcx.admin.updated') }} : {{ module.updated_at|date('d/m/Y') }}
+                            </li>
+
+                            <li class="small">
+                                    <span class="fa-li">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </span>
+                                {{ trans('emcx.admin.created') }} : {{ module.created_at|date('d/m/Y') }}
                             </li>
                             <li class="small">
                                     <span class="fa-li">
@@ -109,17 +118,25 @@
                             </li>
                         </ul>
                     </div>
+                    {% if module.enabled == true %}
                     <div class="col-5 text-center text-success card-logo-container">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
                         </svg>
                     </div>
+                    {% else %}
+                        <div class="col-5 text-center text-warning card-logo-container">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                            </svg>
+                        </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="card-footer">
                 <div class="text-right">
-                    <form method="POST"
-                          action="#switch">
+                    <form method="POST" action="{{ path('admin.emcx.module.switch', {name: module.name}) }}">
+                        {{ csrf_input() }}
                         <a href="CONTACT" class="btn btn-sm bg-gradient-indigo"
                            target="_BLANK">
                             <i class="fas fa-home"></i>
@@ -127,13 +144,13 @@
                         <a href="SUPPORT" class="btn btn-sm bg-olive" target="_BLANK">
                             <i class="fas fa-life-ring"></i>
                         </a>
-                        {% if module.enable == true %}
-                        <button type="button" class="btn btn-danger btn-sm" data-update-route="#switch">
+                        {% if module.enabled == true %}
+                                <button type="submit" class="btn btn-danger btn-sm">
                             <i class="fas fa-sync"></i>{{ trans('emcx.admin.disable') }}
                             <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
                         </button>
                         {% else %}
-                        <button type="button" class="btn btn-success btn-sm" data-update-route="#switch">
+                        <button type="submit" class="btn btn-success btn-sm">
                             <i class="fas fa-sync"></i>{{ trans('emcx.admin.enable') }}
                             <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
                         </button>
@@ -217,12 +234,21 @@
                                                     {% endfor %}
                                                 </ul>
                                         </li>
+
                                         <li class="small">
                                     <span class="fa-li">
                                         <i class="fas fa-lg fa-pen"></i>
                                     </span>
-                                            {{ trans('emcx.admin.updated') }} : 11/08/2001
+                                            {{ trans('emcx.admin.updated') }} : {{ module.updated_at|date('d/m/Y') }}
                                         </li>
+
+                                        <li class="small">
+                                    <span class="fa-li">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </span>
+                                            {{ trans('emcx.admin.created') }} : {{ module.created_at|date('d/m/Y') }}
+                                        </li>
+
                                         <li class="small">
                                         <span class="fa-li">
                                             <i class="fas fa-lg fa-code-branch"></i>
@@ -311,13 +337,15 @@
                                             <span class="badge badge-info">METTRE A JOUR</span>
                                             -->
                                     </div>
-                                    {% if module.config == true %}
-                                        <div class="p-2">
-                                            <a href="/admin/{{ module.name }}/config"
-                                               class="btn btn-sm bg-purple">
-                                                <i class="fas fa-cog"></i>
-                                            </a>
-                                        </div>
+                                    {% if module.enabled == true %}
+                                        {% if module.config == true %}
+                                            <div class="p-2">
+                                                <a href="/admin/{{ module.name }}/config"
+                                                   class="btn btn-sm bg-purple">
+                                                    <i class="fas fa-cog"></i>
+                                                </a>
+                                            </div>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
 
@@ -345,16 +373,23 @@
                                 </span>
                                                     {{ trans('emcx.admin.author') }} :
                                                     <ul class="ml-4 mb-0 fa-ul text-muted">
-                                                        {% for author in module.author%}
+                                                        {% for author in module.author %}
                                                             <li>{{ author }}</li>
                                                         {% endfor %}
                                                     </ul>
                                                 </li>
                                                 <li class="small">
-                                <span class="fa-li">
-                                    <i class="fas fa-lg fa-pen"></i>
-                                </span>
-                                                    {{ trans('emcx.admin.updated') }} : 11/08/2001
+                                    <span class="fa-li">
+                                        <i class="fas fa-lg fa-pen"></i>
+                                    </span>
+                                                    {{ trans('emcx.admin.updated') }} : {{ module.updated_at|date('d/m/Y') }}
+                                                </li>
+
+                                                <li class="small">
+                                    <span class="fa-li">
+                                        <i class="fa-solid fa-clock"></i>
+                                    </span>
+                                                    {{ trans('emcx.admin.created') }} : {{ module.created_at|date('d/m/Y') }}
                                                 </li>
                                                 <li class="small">
                                     <span class="fa-li">
@@ -364,17 +399,25 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div class="col-5 text-center text-success card-logo-container">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                                            </svg>
-                                        </div>
+                                        {% if module.enabled == true %}
+                                            <div class="col-5 text-center text-success card-logo-container">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                                </svg>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-5 text-center text-warning card-logo-container">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+                                                </svg>
+                                            </div>
+                                        {% endif %}
                                     </div>
                                 </div>
                                 <div class="card-footer">
                                     <div class="text-right">
-                                        <form method="POST"
-                                              action="#switch">
+                                        <form method="POST" action="{{ path('admin.emcx.module.switch', {name: module.name}) }}">
+                                            {{ csrf_input() }}
                                             <a href="CONTACT" class="btn btn-sm bg-gradient-indigo"
                                                target="_BLANK">
                                                 <i class="fas fa-home"></i>
@@ -382,13 +425,13 @@
                                             <a href="SUPPORT" class="btn btn-sm bg-olive" target="_BLANK">
                                                 <i class="fas fa-life-ring"></i>
                                             </a>
-                                            {% if module.enable == true %}
-                                                <button type="button" class="btn btn-danger btn-sm" data-update-route="#switch">
+                                            {% if module.enabled == true %}
+                                                <button type="submit" class="btn btn-danger btn-sm">
                                                     <i class="fas fa-sync"></i>{{ trans('emcx.admin.disable') }}
                                                     <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
                                                 </button>
                                             {% else %}
-                                                <button type="button" class="btn btn-success btn-sm" data-update-route="#switch">
+                                                <button type="submit" class="btn btn-success btn-sm">
                                                     <i class="fas fa-sync"></i>{{ trans('emcx.admin.enable') }}
                                                     <span class="spinner-border spinner-border-sm btn-spinner d-none" role="status"></span>
                                                 </button>

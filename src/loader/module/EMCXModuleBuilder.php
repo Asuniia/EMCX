@@ -40,36 +40,19 @@ class EMCXModuleBuilder
         })->toArray();
     }
 
-    public function add()
+    public function run()
     {
 
-
         foreach ($this->getNamespace() as $items) {
-            if (class_exists($items) === false) {
-                continue;
+            if (!class_exists($items)) {
+                new EMCXException("A module contains an error. This can be due to the non-existence of the module or a configuration error", "EMCX_ERR_MODULES_LOAD");
             }
 
             if ($items::DEFINITIONS) {
                 $this->emcx->getApp()->builder->addDefinitions($items::DEFINITIONS);
             }
 
-            /*if ($module::TRANSLATIONS) {
-                $translations = $module::TRANSLATIONS;
-                foreach ($translations as $locale => $file) {
-                    $this->app->translator->addTranslateResource($locale, $file);
-                }
-            }*/
-        }
-    }
-
-    public function run()
-    {
-        foreach ($this->getNamespace() as $items) {
-            if (!class_exists($items)) {
-                new EMCXException("A module contains an error. This can be due to the non-existence of the module or a configuration error", "EMCX_ERR_MODULES_LOAD");
-            }
-
-            return $this->emcx->getApp()->getContainer()->get($items);
+            $this->emcx->getApp()->getContainer()->get($items);
         }
         return $this->emcx->getApp()->getContainer();
     }

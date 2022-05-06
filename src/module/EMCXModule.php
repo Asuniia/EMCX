@@ -4,6 +4,7 @@ namespace App\EMCX\src\module;
 use App\EMCX\EMCXLoader;
 use App\EMCX\src\module\Action\EMCXIndexAction;
 use App\EMCX\src\module\Action\EMCXModuleAction;
+use App\EMCX\src\module\Action\EMCXModuleDownloadAction;
 use App\EMCX\src\module\Action\EMCXPingAction;
 use App\EMCX\src\module\Action\EMCXServerJoinAction;
 use App\EMCX\src\module\Action\EMCXServersAction;
@@ -29,6 +30,8 @@ class EMCXModule extends Module
             $router->get($prefix . "/emcx/servers", EMCXServersAction::class, 'admin.emcx.servers');
             $router->get($prefix . "/emcx/servers/join/[:name]", EMCXServerJoinAction::class, 'admin.emcx.servers.join');
             $router->get($prefix . "/emcx/servers/logout", EMCXServerJoinAction::class, 'admin.emcx.servers.logout');
+            $router->post($prefix . "/emcx/module/[:name]/switch", EMCXModuleAction::class, 'admin.emcx.module.switch');
+            $router->get($prefix . "/emcx/module/download/[:name]", EMCXModuleDownloadAction::class, 'admin.emcx.module.download');
         }
         $router->get("/emcx/ping", EMCXPingAction::class, 'emcx.ping');
         $router->get("/emcx/repository", EMCXModuleAction::class, 'emcx.repository');

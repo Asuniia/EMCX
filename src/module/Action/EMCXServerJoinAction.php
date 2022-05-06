@@ -27,7 +27,7 @@ class EMCXServerJoinAction extends Action
     public function __invoke(ServerRequestInterface $request)
     {
         $name = $request->getAttribute('name');
-        $this->emcx->getConfig()->set('online_server', $name);
+        $this->emcx->getConfig()->setConfig('online_server', $name);
         return $this->redirectToRoute($this->generateURL('admin.emcx.servers'));
     }
 }

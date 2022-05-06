@@ -33,6 +33,7 @@ return [
             "about" => "About",
             "author" => "Author",
             "updated" => "Update",
+            "created" => "Create",
             "version" => "Version",
             "price" => "Price",
             "free" => "Free",

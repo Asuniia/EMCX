@@ -33,6 +33,7 @@ return [
             "about" => "A propos",
             "author" => "Auteur",
             "updated" => "Mis à jour",
+            "created" => "Crée",
             "version" => "Version",
             "price" => "Prix",
             "free" => "Gratuit",
