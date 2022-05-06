@@ -4,7 +4,6 @@ namespace App\EMCX\src\license;
 
 use App\ClientX\Cache\LicenseCache;
 use App\EMCX\src\config\Configuration;
-use App\EMCX\src\config\Request;
 use App\EMCX\src\Exception\EMCXException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ConnectException;
@@ -13,10 +12,10 @@ class LicenseBuilder
 {
 
     public array $data = [];
-    protected array $server = [];
+    protected ?array $server = [];
     protected Configuration $configuration;
 
-    public function __construct(Client $client, Configuration $configuration, array $server)
+    public function __construct(Client $client, Configuration $configuration, ?array $server)
     {
         $this->server = $server;
         $this->configuration = $configuration;

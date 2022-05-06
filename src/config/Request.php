@@ -34,6 +34,7 @@ class Request
         $response = $this->client->get('/', [
             'http_errors' => false,
         ]);
+
         return json_decode($response->getBody()->getContents(), true);
     }
 
