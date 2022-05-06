@@ -7,10 +7,9 @@ use ClientX\Renderer\RendererInterface;
 
 class EMCXExempleModule extends Module
 {
-    const DEFINITIONS = "";
 
-    public function __construct(RendererInterface $renderer)
+    public function __construct()
     {
-        die('Powered by EMCX!');
+        echo "<h1 class='text-danger'>Powered by EMCX!</h1>";
     }
 }
