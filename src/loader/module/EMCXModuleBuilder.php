@@ -4,8 +4,6 @@ namespace App\EMCX\src\loader\module;
 
 use App\EMCX\EMCXLoader;
 use App\EMCX\src\Exception\EMCXException;
-use ClientX\App;
-use ClientX\Helpers\Str;
 
 class EMCXModuleBuilder
 {

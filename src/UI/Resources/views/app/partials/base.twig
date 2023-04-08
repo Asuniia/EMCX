@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="{{ asset('app.css') }}" rel="stylesheet" />
+    <script src="{{ asset('app.js') }}" defer></script>
+</head>
+
+<body>
+{% block body %}{% endblock %}
+</body>
+
+</html>

@@ -3,6 +3,7 @@
 namespace App\EMCX;
 
 use App\EMCX\src\loader\module\EMCXModuleBuilder;
+use App\EMCX\src\UI\EMCXInterfaceModule;
 use ClientX\App;
 
 class EMCXLoader
@@ -14,7 +15,7 @@ class EMCXLoader
     {
         $this->app = $app;
         $this->modules = new EMCXModuleBuilder($this);
-        $this->app->addModule(EMCXModule::class);
+        $this->app->addModule(EMCXInterfaceModule::class);
     }
 
     public function getApp(): App
