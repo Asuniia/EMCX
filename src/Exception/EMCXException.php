@@ -11,12 +11,10 @@ class EMCXException
     {
         $this->message = $message;
         $this->code = $code;
+        $this->handle();
+    }
 
-        return die(json_encode([
-            "errors" => [
-                "message" => $this->message,
-                "code" => $this->code
-            ]
-        ]));
+    public function handle() {
+        return die("<h1>EMCX Exception: " . $this->message . " (" . $this->code . ")</h1>");
     }
 }

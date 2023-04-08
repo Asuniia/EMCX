@@ -11,56 +11,80 @@ class EMCXModuleBuilder
 {
 
     protected EMCXLoader $emcx;
-    protected array $items = [];
+    protected EMCXModuleInterface $modules;
 
-    public function __construct(EMCXLoader $emcx, $items)
+    public function __construct(EMCXLoader $emcx)
     {
         $this->emcx = $emcx;
-        $this->items = $items;
     }
 
-    public function getModules(): array
+    public function getModuleConfig(string $module): array
     {
-        return collect($this->items)->filter()->map(function ($items) {
-            return $items;
-        })->toArray();
+
+        if (!file_exists($this->getDir() . $module . DIRECTORY_SEPARATOR . "config.php")) {
+            new EMCXException("Module config not found for " . $module, "MODULE_CONFIG_NOT_FOUND");
+        }
+
+        $config = require $this->getDir() . $module . DIRECTORY_SEPARATOR . "config.php";
+        return $config;
     }
 
-    public function getModulesEnabled(): array
+    public function getModuleNamespace(string $module): string
     {
-        return collect($this->getModules())->filter(function ($items) {
-            return $items['enabled'] ?? $items;
-        })->toArray();
+
+        return "App\\EMCX\\modules\\" . $module . "\\EMCX" . $module . "Module";
     }
 
-    public function getModulesPublic(): array
+    public function getModules(): EMCXModuleInterface
     {
-        return collect($this->getModules())->filter(function ($items) {
-            return $items['public'] ?? $items;
-        })->toArray();
+        return $this->modules;
+    }
+
+    public function addModule(EMCXModuleInterface $module): void
+    {
+        $this->modules = $module;
+    }
+
+
+    public function getModulesInDir() {
+        $modules = scandir($this->getDir());
+        $modules = array_diff($modules, [".", ".."]);
+        $modules = array_values($modules);
+        return $modules;
+    }
+
+    public function getDir(): string
+    {
+        return dirname(__DIR__, 3) . DIRECTORY_SEPARATOR . "modules" . DIRECTORY_SEPARATOR;
     }
 
     public function run()
     {
+        $modules = $this->getModulesInDir();
 
-        foreach ($this->getNamespace() as $items) {
-            if (!class_exists($items)) {
-                new EMCXException("A module contains an error. This can be due to the non-existence of the module or a configuration error", "EMCX_ERR_MODULES_LOAD");
+        foreach ($modules as $module) {
+
+
+            $config = $this->getModuleConfig($module);
+
+            if(!isset($config["name"]) || !isset($config["version"]) || !isset($config["description"]) || !isset($config["author"]) || !isset($config["enabled"])) {
+                new EMCXException("Module config not valid for " . $module, "MODULE_CONFIG_NOT_VALID");
             }
 
-            if ($items::DEFINITIONS) {
-                $this->emcx->getApp()->builder->addDefinitions($items::DEFINITIONS);
+            if($config["enabled"] == false) {
+                continue;
             }
 
-            $this->emcx->getApp()->getContainer()->get($items);
+            $namespace = $this->getModuleNamespace($module);
+            
+            if (!class_exists($namespace)) {
+                new EMCXException("Module class not found for " . $module, "MODULE_CLASS_NOT_FOUND");
+            }
+
+            $this->emcx->getApp()->addModule($namespace);
         }
+
         return $this->emcx->getApp()->getContainer();
     }
 
-    public function getNamespace(): array
-    {
-        return collect($this->getModulesEnabled())->filter()->map(function ($module) {
-            return "App\\EMCX\\modules\\${module['type']}\\${module['name']}\\EMCX${module['name']}Module";
-        })->values()->toArray();
-    }
 }
